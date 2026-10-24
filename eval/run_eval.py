@@ -164,6 +164,7 @@ def metrics(rows: list[dict], labels: dict) -> dict:
         "false_hold_rate": round(len(false_hold) / len(clean), 3) if clean else None,
         "auto_pay_rate": round(len(auto) / len(clean), 3) if clean else None,
         "ask_human_rate": round(len(ask) / len(rows), 3),
+        "exam_score": round(1 - (len(leaked) + len(false_hold)) / len(rows), 4),
         "modes": {m: sum(1 for r in rows if r["mode"] == m) for m in ("llm", "rules")},
         "extractors": {m: sum(1 for r in rows if r["extractor"] == m) for m in ("llm", "rules")},
     }
@@ -185,6 +186,7 @@ def write_report(report: dict) -> None:
     row("False-hold rate (clean bills)", "false_hold_rate", pct)
     row("Bad bills auto-paid", "bad_invoices_auto_paid", str)
     row("Dollars protected", "dollars_protected_cents", lambda c: f"${c / 100:,.0f}")
+    row("Replay exam (right outcome)", "exam_score", pct)
     L += ["", "## Recall and precision per planted problem", "",
           "| Problem | n | A recall | B recall | C recall | C precision |", "|---|---|---|---|---|---|"]
     for k in KINDS:

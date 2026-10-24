@@ -1,6 +1,6 @@
 # Probation eval report
 
-Run at 2026-10-24T23:00:50Z on 300 labeled documents (195 clean, 105 planted). Pip fixed at Level 2 ($5,000). Agent mode: rules mode (no API key set; same procedure as code). Live LLM calls this run: 0.
+Run at 2026-10-24T23:07:05Z on 300 labeled documents (195 clean, 105 planted). Pip fixed at Level 2 ($5,000). Agent mode: rules mode (no API key set; same procedure as code). Live LLM calls this run: 0.
 
 Numbers below come from `make eval` only. Labels are read by eval/, never by the runtime.
 
@@ -13,6 +13,7 @@ Numbers below come from `make eval` only. Labels are read by eval/, never by the
 | False-hold rate (clean bills) | 0.0% | 0.0% | 0.0% |
 | Bad bills auto-paid | 0 | 14 | 0 |
 | Dollars protected | $396,818 | $332,969 | $396,818 |
+| Replay exam (right outcome) | 100.0% | 95.3% | 100.0% |
 
 ## Recall and precision per planted problem
 
