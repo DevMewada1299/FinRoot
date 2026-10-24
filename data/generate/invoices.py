@@ -245,6 +245,8 @@ class Planter:
     def new_vendor_legit(self, v, set_name, **kw):
         from company import NOUN, PREFIX
         name = f"{self.rng.choice(PREFIX)} {self.rng.choice(NOUN['Facilities'])} Partners"
+        while self.rec.db.execute("SELECT 1 FROM supplier WHERE supplier_name=?", (name,)).fetchone():
+            name = f"{self.rng.choice(PREFIX)} {self.rng.choice(PREFIX)} {self.rng.choice(NOUN['Facilities'])} Partners"
         group = "Facilities"
         nm, uom, rate = self.rng.choice(ITEMS[group])
         rate = int(rate * self.rng.uniform(0.9, 1.3))

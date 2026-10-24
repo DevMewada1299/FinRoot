@@ -7,6 +7,8 @@ from __future__ import annotations
 import random
 from dataclasses import dataclass, field
 
+from probation.sync.job import norm_name
+
 ENTITIES = [
     # name, company_name, operating bank account at SimBank
     ("HPI", "Harborline Provisions Inc.", "SIM-OPS-HPI-01"),
@@ -127,9 +129,10 @@ def make_vendors(rng: random.Random) -> list[VendorSpec]:
         for _ in range(g["n"]):
             for _try in range(50):
                 name = f"{rng.choice(PREFIX)} {rng.choice(NOUN[group])}{rng.choice(SUFFIX)}".replace("Co. Co.", "Co.")
-                if name not in used:
+                key = norm_name(name)
+                if key not in used:
                     break
-            used.add(name)
+            used.add(key)
             n += 1
             base = slug(name.replace(" Inc.", "").replace(" LLC", "").replace(" Group", ""))
             created = f"2024-{rng.randint(1, 12):02d}-{rng.randint(1, 28):02d}"

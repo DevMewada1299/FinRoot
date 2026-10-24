@@ -55,6 +55,6 @@ def load_settings(var_dir: Path | None = None) -> Settings:
         labels_dir=REPO_ROOT / "data" / "labels",
         anthropic_api_key=os.environ.get("ANTHROPIC_API_KEY", ""),
         agent_model=os.environ.get("AGENT_MODEL", "claude-sonnet-5-5"),
-        extract_model=os.environ.get("EXTRACT_MODEL", "claude-haiku-5-5"),
+        extract_model=os.environ.get("EXTRACT_MODEL", "claude-haiku-4-5"),
         max_llm_calls=int(os.environ.get("MAX_LLM_CALLS", "200") or 0),
     )
