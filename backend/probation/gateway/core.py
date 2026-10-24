@@ -99,6 +99,14 @@ class Gateway:
         self.work.execute("INSERT OR IGNORE INTO agent_state VALUES(?,?,?,?,?,?,?,?,?,?,?)",
                           (PIP, 0, 0, 0, 0, None, None, None, "[]", 0, None))
 
+    def close(self) -> None:
+        for c in (self.work, getattr(self.record, "db", None), getattr(self.bank, "db", None), self._golden):
+            try:
+                if c is not None:
+                    c.close()
+            except Exception:
+                pass
+
     # ---------- read helpers ----------
     @property
     def golden(self) -> sqlite3.Connection:

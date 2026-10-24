@@ -96,7 +96,9 @@ def reset(verbose: bool = True) -> dict:
     for sc in ("clean_morning", "price_mismatch", "near_duplicate", "new_vendor"):
         morning += [(d, "demo", sc) for d in demo_docs(sc)]
     res = run_batch(gw, morning, mode="rules")
-    out = {"shadow_reviews": n, "tier": gw.agent_state()["tier"], "split_first": [it["state"] for it in first],
+    st = gw.agent_state()
+    gw.close()
+    out = {"shadow_reviews": n, "tier": st["tier"], "split_first": [it["state"] for it in first],
            "morning": {it["id"]: it["state"] for it in res}}
     if verbose:
         print(json.dumps(out, indent=1))

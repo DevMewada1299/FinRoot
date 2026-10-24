@@ -308,9 +308,13 @@ def ask(a: Ask):
 @app.post("/sim/reset")
 def sim_reset():
     from probation.sim import demo
+    import gc
     with _lock:
+        if _state["gw"] is not None:
+            _state["gw"].close()
         _state["gw"] = None
         _state["tamper"] = None
+        gc.collect()  # drop Pip's read-only connections before the files are replaced
         out = demo.reset(verbose=False)
         events.publish("sim.reset", out)
         return out
