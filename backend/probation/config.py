@@ -52,9 +52,11 @@ def load_settings(var_dir: Path | None = None) -> Settings:
     vd.mkdir(parents=True, exist_ok=True)
     return Settings(
         var_dir=vd,
-        skills_dir=Path(os.environ.get("PROBATION_SKILLS", REPO_ROOT / "agent_skills")),
+        # the running app uses a runtime copy under var/ (seeded from agent_skills/ at reset), so an approved skill
+        # patch changes the live agent without editing the repo's v1 files
+        skills_dir=Path(os.environ.get("PROBATION_SKILLS", vd / "skills" if (vd / "skills").exists() else REPO_ROOT / "agent_skills")),
         labels_dir=REPO_ROOT / "data" / "labels",
-        regression_dir=Path(os.environ.get("PROBATION_REGRESSION", REPO_ROOT / "eval" / "regression")),
+        regression_dir=Path(os.environ.get("PROBATION_REGRESSION", vd / "regression")),
         anthropic_api_key=os.environ.get("ANTHROPIC_API_KEY", ""),
         agent_model=os.environ.get("AGENT_MODEL", "claude-sonnet-5-5"),
         extract_model=os.environ.get("EXTRACT_MODEL", "claude-haiku-4-5"),

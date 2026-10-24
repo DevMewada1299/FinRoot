@@ -77,11 +77,11 @@ def reset(verbose: bool = True) -> dict:
     for f in (s.work_db, s.bank_db):
         for suf in ("", "-wal", "-shm"):
             Path(str(f) + suf).unlink(missing_ok=True)
-    # restore skills from git's version (lessons may have patched them during a previous run)
-    import subprocess
-    subprocess.run(["git", "checkout", "--", str(s.skills_dir)], cwd=REPO_ROOT, check=False, capture_output=True)
-    for p in s.regression_dir.glob("reg-*.json"):
-        p.unlink()
+    # fresh runtime copy of the skills (approved lessons patch this copy, never the repo) and no regression cases
+    shutil.rmtree(s.var_dir / "skills", ignore_errors=True)
+    shutil.copytree(REPO_ROOT / "agent_skills", s.var_dir / "skills")
+    shutil.rmtree(s.var_dir / "regression", ignore_errors=True)
+    s = load_settings()
     gw = Gateway(s)
     gw.clock.set(HIRE_AT)
     hire(gw)
