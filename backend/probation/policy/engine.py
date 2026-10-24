@@ -18,7 +18,7 @@ FEATURES = {
     "vendor_status", "po_found", "po_match", "po_vendor_match", "price_delta_pct", "qty_over_po", "receipt_covers_invoice",
     "bank_changed", "sender_domain_on_file", "sender_lookalike", "tax_id_match", "arithmetic_ok", "duplicate_exact",
     "duplicate_near", "injection_suspected", "is_intercompany", "amount_cents", "vendor_7d_total_cents", "vendor_7d_count",
-    "same_po_bills_7d", "payments_to_account_on_file", "po_department", "vendor_group",
+    "same_po_bills_7d", "same_po_7d_total_cents", "payments_to_account_on_file", "po_department", "vendor_group",
 }
 CONTEXT_VARS = {"tier_limit_cents"}
 KEYS = {"id", "when", "then", "max_amount_cents", "route_on", "min_role", "source", "evidence", "text"}

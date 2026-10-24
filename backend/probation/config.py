@@ -16,6 +16,7 @@ class Settings:
     var_dir: Path
     skills_dir: Path
     labels_dir: Path
+    regression_dir: Path
     anthropic_api_key: str
     agent_model: str
     extract_model: str
@@ -51,8 +52,9 @@ def load_settings(var_dir: Path | None = None) -> Settings:
     vd.mkdir(parents=True, exist_ok=True)
     return Settings(
         var_dir=vd,
-        skills_dir=REPO_ROOT / "agent_skills",
+        skills_dir=Path(os.environ.get("PROBATION_SKILLS", REPO_ROOT / "agent_skills")),
         labels_dir=REPO_ROOT / "data" / "labels",
+        regression_dir=Path(os.environ.get("PROBATION_REGRESSION", REPO_ROOT / "eval" / "regression")),
         anthropic_api_key=os.environ.get("ANTHROPIC_API_KEY", ""),
         agent_model=os.environ.get("AGENT_MODEL", "claude-sonnet-5-5"),
         extract_model=os.environ.get("EXTRACT_MODEL", "claude-haiku-4-5"),

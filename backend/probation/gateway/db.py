@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS inbox_doc(id TEXT PRIMARY KEY, received_at TEXT, chan
   body TEXT, attachments TEXT, set_name TEXT, scenario TEXT);
 CREATE TABLE IF NOT EXISTS work_item(id TEXT PRIMARY KEY, kind TEXT, state TEXT, doc_id TEXT, supplier TEXT, entity_id TEXT,
   amount_cents INTEGER, extracted TEXT, facts TEXT, proposal TEXT, routing TEXT, required_role TEXT, requested_by TEXT,
-  proposed_by TEXT, approved_by TEXT, posted_by TEXT, record_invoice TEXT, record_payment TEXT, created_at TEXT, updated_at TEXT);
+  proposed_by TEXT, approved_by TEXT, posted_by TEXT, record_invoice TEXT, record_payment TEXT, transfer_id TEXT, created_at TEXT, updated_at TEXT);
 CREATE INDEX IF NOT EXISTS w_wi_state ON work_item(state);
 CREATE INDEX IF NOT EXISTS w_wi_supplier ON work_item(supplier);
 CREATE TABLE IF NOT EXISTS audit_log(seq INTEGER PRIMARY KEY, at TEXT, actor TEXT, action TEXT, subject TEXT, allowed INTEGER,

@@ -310,6 +310,7 @@ def compute(doc: InboxDoc, ex: ExtractedInvoice, golden: sqlite3.Connection, wor
     f["vendor_7d_total_cents"] = ex.grand_total_cents
     f["vendor_7d_count"] = 1
     f["same_po_bills_7d"] = 1
+    f["same_po_7d_total_cents"] = ex.grand_total_cents
     if v is not None and bill_day:
         since7 = (dt.date.fromisoformat(bill_day[:10]) - dt.timedelta(days=7)).isoformat()
         g = golden.execute("SELECT COALESCE(SUM(total_cents),0), COUNT(*) FROM invoice WHERE vendor_id=? AND invoice_date>=?",
@@ -317,8 +318,10 @@ def compute(doc: InboxDoc, ex: ExtractedInvoice, golden: sqlite3.Connection, wor
         f["vendor_7d_total_cents"] += g[0]
         f["vendor_7d_count"] += g[1]
         if po is not None:
-            f["same_po_bills_7d"] += golden.execute("SELECT COUNT(*) FROM invoice WHERE po_id=? AND invoice_date>=?",
-                                                    (po["id"], since7)).fetchone()[0]
+            g2 = golden.execute("SELECT COUNT(*), COALESCE(SUM(total_cents),0) FROM invoice WHERE po_id=? AND invoice_date>=?",
+                                (po["id"], since7)).fetchone()
+            f["same_po_bills_7d"] += g2[0]
+            f["same_po_7d_total_cents"] += g2[1]
         if work is not None:
             for r in work.execute("SELECT amount_cents, extracted FROM work_item WHERE supplier=? AND id<>? AND record_invoice IS NULL "
                                   "AND state NOT IN ('REJECTED','BLOCKED')", (v["id"], work_item_id or "")):
@@ -328,6 +331,7 @@ def compute(doc: InboxDoc, ex: ExtractedInvoice, golden: sqlite3.Connection, wor
                     f["vendor_7d_count"] += 1
                     if po is not None and e2.get("po_number", "").upper() == po["id"]:
                         f["same_po_bills_7d"] += 1
+                        f["same_po_7d_total_cents"] += r["amount_cents"]
 
     # ---- untrusted text ----
     hits = injection_hits(doc.subject + "\n" + doc.body)

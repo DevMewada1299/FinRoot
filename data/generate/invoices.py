@@ -143,7 +143,7 @@ class Planter:
         return [self.emit(d, "duplicate_exact", v.sid, set_name, note=f"same as {h['name']} paid {h['paid_on']}", **kw)]
 
     def duplicate_near(self, v, set_name, **kw):
-        hist = self.paid_invoices(v.sid, 45)
+        hist = self.paid_invoices(v.sid, 45) or self.paid_invoices(v.sid)[:3]
         if not hist:
             return []
         h = self.rng.choice(hist[:5])
@@ -271,8 +271,10 @@ class Planter:
         nm, uom, rate = ITEMS[v.group][self.rng.randrange(len(ITEMS[v.group]))]
         k = ITEMS[v.group].index((nm, uom, rate))
         lines_all, docs_lines = [], []
+        taxed = tax_for(v.group, 10000) > 0
         for p in parts:
-            qty = max(1, p // rate)
+            target = int(p / 1.0825) if taxed else p
+            qty = max(1, target // rate)
             docs_lines.append(POLine(item_code=item_code(v.group, k), description=nm, qty=qty, rate_cents=rate, amount_cents=qty * rate))
         total_qty = sum(l.qty for l in docs_lines)
         po_line = POLine(item_code=item_code(v.group, k), description=nm, qty=total_qty, rate_cents=rate, amount_cents=total_qty * rate)

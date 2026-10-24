@@ -20,9 +20,9 @@ REPO = HERE.parents[1]
 SEED = 1310
 
 
-def main() -> None:
+def main(s=None, write_files: bool = True) -> None:
     t0 = time.time()
-    s = load_settings()
+    s = s or load_settings()
     for f in (s.record_db, s.golden_db, s.work_db, s.bank_db):
         for suffix in ("", "-wal", "-shm"):
             Path(str(f) + suffix).unlink(missing_ok=True)
@@ -38,6 +38,8 @@ def main() -> None:
     build_eval_set(p)
     build_demo_set(p)
     rec.commit()
+    if not write_files:
+        return
     inbox = REPO / "data" / "inbox"
     inbox.mkdir(exist_ok=True)
     labels = REPO / "data" / "labels"
