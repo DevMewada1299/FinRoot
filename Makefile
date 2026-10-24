@@ -10,6 +10,7 @@ setup:
 seed:
 	$(PY) data/generate/seed.py
 	$(PY) -m probation.sync.job
+	$(PY) -m probation.sim.demo snapshot
 
 test:
 	cd backend && uv run pytest -q

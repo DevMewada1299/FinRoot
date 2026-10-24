@@ -34,10 +34,15 @@ def onboard(gw: Gateway, approve: bool = True) -> None:
     for p in engine.ONBOARDING_POLICIES:
         if gw.work.execute("SELECT 1 FROM policy WHERE id=?", (p["id"],)).fetchone():
             continue
-        propose_policy(gw, dict(p), "onboarding", proposer=GATEWAY)
+        # Pip drafts these from 12 months of history with a read-only SQL job; the controller approves them
+        propose_policy(gw, dict(p), "onboarding", proposer=PIP)
         if approve:
             gw.transition("policy", p["id"], "approve", CONTROLLER, patch={"decided_by": CONTROLLER, "decided_at": gw.clock.now()},
                           reason="Approved at onboarding after the replay test")
+            if p["then"] == "auto_approve":
+                st = gw.agent_state()
+                gw.transition("agent", PIP, "score", GATEWAY, patch={"learned_count": (st["learned_count"] or 0) + 1},
+                              reason=f"{p['id']} drafted by Pip and approved; counts toward promotion")
 
 
 def policy_rows(gw: Gateway) -> list[dict]:

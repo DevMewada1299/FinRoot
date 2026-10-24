@@ -174,6 +174,7 @@ def test_approver_role_must_match_matrix(gw):
 # ---------------------------------------------------------------- 9. tiers
 def test_promotion_demotion_and_tightening_expiry(gw):
     assert gw.agent_state()["tier"] == 0
+    gw.transition("agent", PIP, "score", "gateway", patch={"learned_count": 0}, reason="test: no learned policies yet")
     for i in range(20):
         gw.score(True, False, f"test {i}")
     assert gw.agent_state()["tier"] == 1
