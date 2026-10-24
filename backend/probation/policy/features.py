@@ -277,7 +277,7 @@ def compute(doc: InboxDoc, ex: ExtractedInvoice, golden: sqlite3.Connection, wor
         for r in golden.execute("SELECT id, vendor_invoice_no, total_cents, invoice_date FROM invoice WHERE vendor_id=? AND invoice_no_norm=?",
                                 (v["id"], n)):
             dup_ids.append(r["id"])
-        since = (dt.date.fromisoformat(bill_day[:10]) - dt.timedelta(days=60)).isoformat() if bill_day else "0000"
+        since = (dt.date.fromisoformat(bill_day[:10]) - dt.timedelta(days=180)).isoformat() if bill_day else "0000"
         for r in golden.execute("SELECT id, vendor_invoice_no, total_cents FROM invoice WHERE vendor_id=? AND total_cents=? AND invoice_date>=?",
                                 (v["id"], ex.grand_total_cents, since)):
             if r["id"] not in dup_ids and similar_invoice_no(r["vendor_invoice_no"], ex.bill_no):

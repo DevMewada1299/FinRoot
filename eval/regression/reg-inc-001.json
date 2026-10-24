@@ -1,0 +1,447 @@
+{
+ "id": "reg-inc-001",
+ "incident_id": "inc-001",
+ "lesson_id": "lesson-001",
+ "work_items": [
+  "WI-000003",
+  "WI-000002",
+  "WI-000001"
+ ],
+ "doc_ids": [
+  "DOC-D00306",
+  "DOC-D00305",
+  "DOC-D00304"
+ ],
+ "facts": [
+  {
+   "amount_cents": 472360,
+   "arithmetic_ok": true,
+   "bank_changed": false,
+   "bank_on_file_id": "SBA-00415",
+   "bank_on_file_last4": "7731",
+   "bank_verified": true,
+   "bill_date": "2026-10-22",
+   "checks": [
+    {
+     "bank": "On file since 2024-02-11",
+     "inv": "Tamarack Provisions \u00b7 tax id 00-5160038",
+     "key": "vendor",
+     "label": "Vendor",
+     "note": "Tax id matches the vendor file.",
+     "rec": "Tamarack Provisions (SUP-0404) \u00b7 tax id 00-5160038",
+     "refs": [
+      "SUP-0404"
+     ],
+     "st": "ok"
+    },
+    {
+     "bank": "",
+     "inv": "invoices@tamarackprovisions.com",
+     "key": "sender",
+     "label": "Sender",
+     "note": "Same domain as on file.",
+     "rec": "@tamarackprovisions.com on file",
+     "refs": [
+      "SUP-0404"
+     ],
+     "st": "ok"
+    },
+    {
+     "bank": "70 earlier payments to \u2022\u20227731",
+     "inv": "\u2022\u20227731 Bayview Commercial Bank",
+     "key": "bank",
+     "label": "Pay-to account",
+     "note": "Same account as always.",
+     "rec": "\u2022\u20227731 Bayview Commercial Bank, verified 2024-03-02",
+     "refs": [
+      "SBA-00415"
+     ],
+     "st": "ok"
+    },
+    {
+     "bank": "",
+     "inv": "$4,723.60",
+     "key": "total",
+     "label": "Total",
+     "note": "Lines and tax add up to the total.",
+     "rec": "Lines $4,723.60 + tax $0.00 = $4,723.60",
+     "st": "ok"
+    },
+    {
+     "bank": "",
+     "inv": "PO-19095",
+     "key": "po",
+     "label": "Purchase order",
+     "note": "Prices match the PO.",
+     "rec": "PO-19095: $14,074.40, Purchasing - Protein",
+     "refs": [
+      "PO-19095"
+     ],
+     "st": "ok"
+    },
+    {
+     "bank": "",
+     "inv": "49 units billed",
+     "key": "receipt",
+     "label": "Goods received",
+     "note": "Everything billed was received.",
+     "rec": "PR-19095",
+     "refs": [
+      "PR-19095"
+     ],
+     "st": "ok"
+    },
+    {
+     "bank": "",
+     "inv": "TP-48125",
+     "key": "duplicate",
+     "label": "Duplicate check",
+     "note": "No duplicate found.",
+     "rec": "No match",
+     "refs": [],
+     "st": "ok"
+    }
+   ],
+   "duplicate_exact": false,
+   "duplicate_near": false,
+   "duplicate_of": [],
+   "entity_id": "HPI",
+   "evidence": [
+    "DOC-D00306",
+    "SUP-0404",
+    "SBA-00415",
+    "PO-19095",
+    "PR-19095"
+   ],
+   "flags": [],
+   "injection_suspected": false,
+   "is_intercompany": false,
+   "lines_sum_cents": 472360,
+   "payments_to_account_on_file": 70,
+   "po_department": "Purchasing - Protein",
+   "po_found": true,
+   "po_id": "PO-19095",
+   "po_invoices_before": 2,
+   "po_match": true,
+   "po_requested_by": "Luis Ortega",
+   "po_total_cents": 1407440,
+   "po_vendor_match": true,
+   "price_delta_pct": 0.0,
+   "qty_over_po": false,
+   "receipt_covers_invoice": true,
+   "same_po_7d_total_cents": 1407440,
+   "same_po_bills_7d": 3,
+   "sender_domain": "tamarackprovisions.com",
+   "sender_domain_on_file": true,
+   "sender_lookalike": false,
+   "tax_id_match": true,
+   "three_way": [
+    {
+     "billed_before": 97,
+     "desc": "Chicken thighs boneless 40lb",
+     "inv_qty": 49,
+     "inv_rate": 9640,
+     "item_code": "MSF-001",
+     "po_qty": 146,
+     "po_rate": 9640,
+     "received": 146,
+     "st": "ok"
+    }
+   ],
+   "vendor_7d_count": 8,
+   "vendor_7d_total_cents": 8565816,
+   "vendor_group": "Meat & Seafood",
+   "vendor_id": "SUP-0404",
+   "vendor_matched_by": "name",
+   "vendor_name": "Tamarack Provisions",
+   "vendor_status": "known"
+  },
+  {
+   "amount_cents": 482000,
+   "arithmetic_ok": true,
+   "bank_changed": false,
+   "bank_on_file_id": "SBA-00415",
+   "bank_on_file_last4": "7731",
+   "bank_verified": true,
+   "bill_date": "2026-10-22",
+   "checks": [
+    {
+     "bank": "On file since 2024-02-11",
+     "inv": "Tamarack Provisions \u00b7 tax id 00-5160038",
+     "key": "vendor",
+     "label": "Vendor",
+     "note": "Tax id matches the vendor file.",
+     "rec": "Tamarack Provisions (SUP-0404) \u00b7 tax id 00-5160038",
+     "refs": [
+      "SUP-0404"
+     ],
+     "st": "ok"
+    },
+    {
+     "bank": "",
+     "inv": "accounts@tamarackprovisions.com",
+     "key": "sender",
+     "label": "Sender",
+     "note": "Same domain as on file.",
+     "rec": "@tamarackprovisions.com on file",
+     "refs": [
+      "SUP-0404"
+     ],
+     "st": "ok"
+    },
+    {
+     "bank": "69 earlier payments to \u2022\u20227731",
+     "inv": "\u2022\u20227731 Bayview Commercial Bank",
+     "key": "bank",
+     "label": "Pay-to account",
+     "note": "Same account as always.",
+     "rec": "\u2022\u20227731 Bayview Commercial Bank, verified 2024-03-02",
+     "refs": [
+      "SBA-00415"
+     ],
+     "st": "ok"
+    },
+    {
+     "bank": "",
+     "inv": "$4,820.00",
+     "key": "total",
+     "label": "Total",
+     "note": "Lines and tax add up to the total.",
+     "rec": "Lines $4,820.00 + tax $0.00 = $4,820.00",
+     "st": "ok"
+    },
+    {
+     "bank": "",
+     "inv": "PO-19095",
+     "key": "po",
+     "label": "Purchase order",
+     "note": "Prices match the PO.",
+     "rec": "PO-19095: $14,074.40, Purchasing - Protein",
+     "refs": [
+      "PO-19095"
+     ],
+     "st": "ok"
+    },
+    {
+     "bank": "",
+     "inv": "50 units billed",
+     "key": "receipt",
+     "label": "Goods received",
+     "note": "Everything billed was received.",
+     "rec": "PR-19095",
+     "refs": [
+      "PR-19095"
+     ],
+     "st": "ok"
+    },
+    {
+     "bank": "",
+     "inv": "TP-48123-2",
+     "key": "duplicate",
+     "label": "Duplicate check",
+     "note": "No duplicate found.",
+     "rec": "No match",
+     "refs": [],
+     "st": "ok"
+    }
+   ],
+   "duplicate_exact": false,
+   "duplicate_near": false,
+   "duplicate_of": [],
+   "entity_id": "HPI",
+   "evidence": [
+    "DOC-D00305",
+    "SUP-0404",
+    "SBA-00415",
+    "PO-19095",
+    "PR-19095"
+   ],
+   "flags": [],
+   "injection_suspected": false,
+   "is_intercompany": false,
+   "lines_sum_cents": 482000,
+   "payments_to_account_on_file": 69,
+   "po_department": "Purchasing - Protein",
+   "po_found": true,
+   "po_id": "PO-19095",
+   "po_invoices_before": 1,
+   "po_match": true,
+   "po_requested_by": "Luis Ortega",
+   "po_total_cents": 1407440,
+   "po_vendor_match": true,
+   "price_delta_pct": 0.0,
+   "qty_over_po": false,
+   "receipt_covers_invoice": true,
+   "same_po_7d_total_cents": 1407440,
+   "same_po_bills_7d": 3,
+   "sender_domain": "tamarackprovisions.com",
+   "sender_domain_on_file": true,
+   "sender_lookalike": false,
+   "tax_id_match": true,
+   "three_way": [
+    {
+     "billed_before": 96,
+     "desc": "Chicken thighs boneless 40lb",
+     "inv_qty": 50,
+     "inv_rate": 9640,
+     "item_code": "MSF-001",
+     "po_qty": 146,
+     "po_rate": 9640,
+     "received": 146,
+     "st": "ok"
+    }
+   ],
+   "vendor_7d_count": 8,
+   "vendor_7d_total_cents": 8565816,
+   "vendor_group": "Meat & Seafood",
+   "vendor_id": "SUP-0404",
+   "vendor_matched_by": "name",
+   "vendor_name": "Tamarack Provisions",
+   "vendor_status": "known"
+  },
+  {
+   "amount_cents": 453080,
+   "arithmetic_ok": true,
+   "bank_changed": false,
+   "bank_on_file_id": "SBA-00415",
+   "bank_on_file_last4": "7731",
+   "bank_verified": true,
+   "bill_date": "2026-10-22",
+   "checks": [
+    {
+     "bank": "On file since 2024-02-11",
+     "inv": "Tamarack Provisions \u00b7 tax id 00-5160038",
+     "key": "vendor",
+     "label": "Vendor",
+     "note": "Tax id matches the vendor file.",
+     "rec": "Tamarack Provisions (SUP-0404) \u00b7 tax id 00-5160038",
+     "refs": [
+      "SUP-0404"
+     ],
+     "st": "ok"
+    },
+    {
+     "bank": "",
+     "inv": "invoices@tamarackprovisions.com",
+     "key": "sender",
+     "label": "Sender",
+     "note": "Same domain as on file.",
+     "rec": "@tamarackprovisions.com on file",
+     "refs": [
+      "SUP-0404"
+     ],
+     "st": "ok"
+    },
+    {
+     "bank": "68 earlier payments to \u2022\u20227731",
+     "inv": "\u2022\u20227731 Bayview Commercial Bank",
+     "key": "bank",
+     "label": "Pay-to account",
+     "note": "Same account as always.",
+     "rec": "\u2022\u20227731 Bayview Commercial Bank, verified 2024-03-02",
+     "refs": [
+      "SBA-00415"
+     ],
+     "st": "ok"
+    },
+    {
+     "bank": "",
+     "inv": "$4,530.80",
+     "key": "total",
+     "label": "Total",
+     "note": "Lines and tax add up to the total.",
+     "rec": "Lines $4,530.80 + tax $0.00 = $4,530.80",
+     "st": "ok"
+    },
+    {
+     "bank": "",
+     "inv": "PO-19095",
+     "key": "po",
+     "label": "Purchase order",
+     "note": "Prices match the PO.",
+     "rec": "PO-19095: $14,074.40, Purchasing - Protein",
+     "refs": [
+      "PO-19095"
+     ],
+     "st": "ok"
+    },
+    {
+     "bank": "",
+     "inv": "47 units billed",
+     "key": "receipt",
+     "label": "Goods received",
+     "note": "Everything billed was received.",
+     "rec": "PR-19095",
+     "refs": [
+      "PR-19095"
+     ],
+     "st": "ok"
+    },
+    {
+     "bank": "",
+     "inv": "TP-48123-1",
+     "key": "duplicate",
+     "label": "Duplicate check",
+     "note": "No duplicate found.",
+     "rec": "No match",
+     "refs": [],
+     "st": "ok"
+    }
+   ],
+   "duplicate_exact": false,
+   "duplicate_near": false,
+   "duplicate_of": [],
+   "entity_id": "HPI",
+   "evidence": [
+    "DOC-D00304",
+    "SUP-0404",
+    "SBA-00415",
+    "PO-19095",
+    "PR-19095"
+   ],
+   "flags": [],
+   "injection_suspected": false,
+   "is_intercompany": false,
+   "lines_sum_cents": 453080,
+   "payments_to_account_on_file": 68,
+   "po_department": "Purchasing - Protein",
+   "po_found": true,
+   "po_id": "PO-19095",
+   "po_invoices_before": 0,
+   "po_match": true,
+   "po_requested_by": "Luis Ortega",
+   "po_total_cents": 1407440,
+   "po_vendor_match": true,
+   "price_delta_pct": 0.0,
+   "qty_over_po": false,
+   "receipt_covers_invoice": true,
+   "same_po_7d_total_cents": 1407440,
+   "same_po_bills_7d": 3,
+   "sender_domain": "tamarackprovisions.com",
+   "sender_domain_on_file": true,
+   "sender_lookalike": false,
+   "tax_id_match": true,
+   "three_way": [
+    {
+     "billed_before": 99,
+     "desc": "Chicken thighs bonless 40lb",
+     "inv_qty": 47,
+     "inv_rate": 9640,
+     "item_code": "MSF-001",
+     "po_qty": 146,
+     "po_rate": 9640,
+     "received": 146,
+     "st": "ok"
+    }
+   ],
+   "vendor_7d_count": 8,
+   "vendor_7d_total_cents": 8565816,
+   "vendor_group": "Meat & Seafood",
+   "vendor_id": "SUP-0404",
+   "vendor_matched_by": "name",
+   "vendor_name": "Tamarack Provisions",
+   "vendor_status": "known"
+  }
+ ],
+ "expect": "no bill after the first is auto-approved; Pip flags split_to_dodge_limit"
+}

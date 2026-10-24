@@ -352,6 +352,13 @@ def sim_fast_forward(f: FF):
         return fast_forward(gw(), f.weeks)
 
 
+@app.get("/sim/weeks")
+def sim_weeks():
+    from probation.sim.fastforward import weeks
+    with _lock:
+        return weeks(gw())
+
+
 @app.get("/eval/latest")
 def eval_latest():
     p = REPO_ROOT / "eval" / "report.json"
