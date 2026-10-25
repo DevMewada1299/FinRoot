@@ -21,6 +21,7 @@ class Settings:
     agent_model: str
     extract_model: str
     max_llm_calls: int
+    record_backend: str = "sqlite"
 
     @property
     def record_db(self) -> Path:
@@ -28,7 +29,8 @@ class Settings:
 
     @property
     def golden_db(self) -> Path:
-        return self.var_dir / "golden.db"
+        # one read model per system of record, so the ERPNext demo and the SQLite eval never share a file
+        return self.var_dir / ("golden_erpnext.db" if self.record_backend == "erpnext" else "golden.db")
 
     @property
     def work_db(self) -> Path:
@@ -61,4 +63,5 @@ def load_settings(var_dir: Path | None = None) -> Settings:
         agent_model=os.environ.get("AGENT_MODEL", "claude-sonnet-5-5"),
         extract_model=os.environ.get("EXTRACT_MODEL", "claude-haiku-4-5"),
         max_llm_calls=int(os.environ.get("MAX_LLM_CALLS", "200") or 0),
+        record_backend=os.environ.get("RECORD_BACKEND", "sqlite").strip().lower() or "sqlite",
     )

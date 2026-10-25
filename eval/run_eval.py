@@ -61,7 +61,8 @@ def fresh_settings(base, tmp: Path):
         shutil.copy(src, tmp / name)
     shutil.copytree(REPO / "agent_skills", tmp / "skills", dirs_exist_ok=True)
     s = load_settings(tmp)
-    return dataclasses.replace(s, skills_dir=tmp / "skills", regression_dir=tmp / "regression")
+    # the eval always runs on isolated SQLite copies of the record, whatever the live demo uses
+    return dataclasses.replace(s, skills_dir=tmp / "skills", regression_dir=tmp / "regression", record_backend="sqlite")
 
 
 def set_tier(gw: Gateway, tier: int) -> None:
@@ -204,11 +205,13 @@ def write_report(report: dict) -> None:
 
 def main() -> None:
     t0 = time.time()
-    base = load_settings()
+    base = dataclasses.replace(load_settings(), record_backend="sqlite")
     docs = load_jsonl(REPO / "data" / "inbox" / "eval.jsonl")
     demo = load_jsonl(REPO / "data" / "inbox" / "demo.jsonl")
     labels = {l["doc_id"]: l for l in load_jsonl(REPO / "data" / "labels" / "eval.jsonl")}
-    mode = "auto" if base.llm_enabled else "rules"
+    # rules unless asked: an LLM run costs real money and takes about 15 s per decision (EVAL_MODE=llm make eval)
+    import os
+    mode = "auto" if (os.environ.get("EVAL_MODE") == "llm" and base.llm_enabled) else "rules"
     stages = {}
     for sname in "ABC":
         out = run_stage(sname, base, docs, demo, mode)

@@ -150,8 +150,15 @@ def run_sync(record, golden_path: Path, source: str = "record") -> dict:
     return {"synced": total, "cursor": cursor}
 
 
+def record_for(settings):
+    if settings.record_backend == "erpnext":
+        from probation.ports.erpnext import ErpnextRecord
+        return ErpnextRecord()
+    from probation.ports.sqlite import SqliteRecord
+    return SqliteRecord(settings.record_db)
+
+
 if __name__ == "__main__":
     from probation.config import load_settings
-    from probation.ports.sqlite import SqliteRecord
     s = load_settings()
-    print(run_sync(SqliteRecord(s.record_db), s.golden_db))
+    print(run_sync(record_for(s), s.golden_db))

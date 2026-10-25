@@ -92,6 +92,9 @@ class Gateway:
         from probation.ports.sqlite import SqliteRecord
         self.s = settings
         self.work: sqlite3.Connection = open_work(settings.work_db)
+        if record is None and settings.record_backend == "erpnext":
+            from probation.ports.erpnext import ErpnextRecord
+            record = ErpnextRecord()
         self.record = record or SqliteRecord(settings.record_db)
         self.bank = bank or SimBank(settings.bank_db)
         self.clock = SimClock(self.work)
@@ -555,7 +558,7 @@ class Gateway:
                                  description=l.description, qty=l.qty, rate_cents=l.rate_cents, amount_cents=l.amount_cents)
                      for i, l in enumerate(ex.lines)]
             net = sum(l.amount_cents for l in lines)
-            self.record.post_purchase_invoice(PurchaseInvoice(
+            pinv = self.record.post_purchase_invoice(PurchaseInvoice(
                 name=pinv, supplier=it["supplier"], company=it["entity_id"] or "HPI", bill_no=ex.bill_no,
                 bill_date=ex.bill_date or self.clock.today(), posting_date=self.clock.today(), purchase_order=fresh.get("po_id"),
                 net_total_cents=net, tax_cents=ex.grand_total_cents - net, grand_total_cents=ex.grand_total_cents,
@@ -565,13 +568,21 @@ class Gateway:
             company = it["entity_id"] or "HPI"
             transfer = self.bank.send_ach(company, f"{sba}:{acct}", ex.grand_total_cents, f"{ex.bill_no} {pinv}")
             pay = self.record.next_name("payment_entry", "PAY-", 6)
-            self.record.post_payment_entry(PaymentEntry(name=pay, company=company, party=it["supplier"],
+            pay = self.record.post_payment_entry(PaymentEntry(name=pay, company=company, party=it["supplier"],
                                                         paid_amount_cents=ex.grand_total_cents, posting_date=self.clock.today(),
                                                         reference_invoice=pinv, bank_account=sba, transfer_id=transfer))
             return {"record_invoice": pinv, "record_payment": pay, "posted_by": GATEWAY, "approved_by": approver,
                     "transfer_id": transfer}
 
-        self.transition("work_item", wid, "post", GATEWAY, patch={}, effect=effect,
+        def guarded() -> dict:
+            try:
+                return effect()
+            except Denied:
+                raise
+            except Exception as e:  # the record refused the posting: a denied attempt, logged like any other
+                raise Denied(f"system of record rejected the posting: {str(e)[:300]}", rule="record") from e
+
+        self.transition("work_item", wid, "post", GATEWAY, patch={}, effect=guarded,
                         reason=f"Paid {usd(it['amount_cents'])} to the account on file · approved by {approver}")
         self.resync()
         return self.item(wid)

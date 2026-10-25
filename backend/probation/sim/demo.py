@@ -65,12 +65,50 @@ def shadow_history(gw: Gateway, start: str, end: str, every_days: float = 1.6) -
     return n
 
 
+ERP_DB = ["docker", "exec", "-i", "erpnext-db-1"]
+
+
+def _erp_db_name() -> str:
+    import subprocess
+    out = subprocess.run(["docker", "exec", "erpnext-backend-1", "cat", "sites/frontend/site_config.json"],
+                         capture_output=True, text=True, check=True).stdout
+    return json.loads(out)["db_name"]
+
+
+def erpnext_snapshot(settings=None) -> None:
+    """After docker/erpnext_load.py and a sync: dump ERPNext's database and golden.db as the demo's starting point."""
+    import sqlite3
+    import subprocess
+    s = settings or load_settings()
+    snap = s.var_dir / "pristine_erpnext"
+    snap.mkdir(exist_ok=True)
+    with open(snap / "erpnext.sql", "wb") as f:
+        subprocess.run(ERP_DB + ["mariadb-dump", "-uroot", "-padmin", "--single-transaction", _erp_db_name()], stdout=f, check=True)
+    db = sqlite3.connect(s.golden_db)
+    db.execute("PRAGMA wal_checkpoint(TRUNCATE)")
+    db.close()
+    shutil.copy(s.golden_db, snap / "golden.db")
+
+
+def erpnext_restore(s) -> None:
+    import subprocess
+    snap = s.var_dir / "pristine_erpnext"
+    with open(snap / "erpnext.sql", "rb") as f:
+        subprocess.run(ERP_DB + ["mariadb", "-uroot", "-padmin", _erp_db_name()], stdin=f, check=True)
+    subprocess.run(["docker", "exec", "erpnext-backend-1", "bench", "--site", "frontend", "clear-cache"], check=True, capture_output=True)
+    for suf in ("-wal", "-shm"):
+        Path(str(s.golden_db) + suf).unlink(missing_ok=True)
+    shutil.copy(snap / "golden.db", s.golden_db)
+
+
 def reset(verbose: bool = True) -> dict:
     s = load_settings()
+    if s.record_backend == "erpnext":
+        erpnext_restore(s)
     snap = s.var_dir / "pristine"
     if not (snap / "record.db").exists():
         snapshot(s)
-    for name in ("record.db", "golden.db"):
+    for name in (("record.db", "golden.db") if s.record_backend != "erpnext" else ("record.db",)):
         for suf in ("-wal", "-shm"):
             Path(str(s.var_dir / name) + suf).unlink(missing_ok=True)
         shutil.copy(snap / name, s.var_dir / name)
@@ -116,3 +154,5 @@ if __name__ == "__main__":
         reset()
     elif cmd == "snapshot":
         snapshot()
+    elif cmd == "erpnext-snapshot":
+        erpnext_snapshot()

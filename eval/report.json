@@ -1,11 +1,11 @@
 {
- "at": "2026-10-24T23:07:05Z",
+ "at": "2026-10-25T08:20:36Z",
  "docs": 300,
  "clean": 195,
  "planted": 105,
  "mode_note": "rules mode (no API key set; same procedure as code)",
  "llm_calls": 0,
- "seconds": 5.0,
+ "seconds": 4.9,
  "stages": {
   "A": {
    "metrics": {

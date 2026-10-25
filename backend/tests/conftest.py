@@ -27,7 +27,7 @@ def seeded(tmp_path_factory):
     from probation.ports.sqlite import SqliteRecord
     from probation.sync.job import run_sync
     d = tmp_path_factory.mktemp("seed")
-    s = load_settings(d)
+    s = dataclasses.replace(load_settings(d), record_backend="sqlite")
     seed.main(s, write_files=False)
     gc.collect()
     run_sync(SqliteRecord(s.record_db), s.golden_db)
@@ -44,7 +44,7 @@ def settings(seeded, tmp_path):
     shutil.copytree(REPO_ROOT / "agent_skills", tmp_path / "skills")
     s = load_settings(tmp_path)
     return dataclasses.replace(s, skills_dir=tmp_path / "skills", regression_dir=tmp_path / "regression",
-                               anthropic_api_key="", max_llm_calls=0)
+                               anthropic_api_key="", max_llm_calls=0, record_backend="sqlite")
 
 
 @pytest.fixture

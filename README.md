@@ -32,9 +32,9 @@ AP inbox / paste box -> Extractor (rules, Haiku fallback) -> work item
 - Details: `docs/ARCHITECTURE.md`, `docs/LEARNING.md`.
 
 ## Real vs simulated
-**Real:** the schema (modelled on ERPNext doctypes: Supplier, Purchase Order, Purchase Receipt, Purchase Invoice, Payment Entry, GL Entry), the fraud patterns (common business-email-compromise attacks: look-alike domains, bank-change requests before a payment, copied amounts, instructions aimed at automated AP), and the code paths: the gateway, policy engine, audit chain and trust rules that run in the demo are the ones the tests check.
+**Real:** ERPNext v16 is the system of record in the live demo (local Docker, `make erpnext-seed`): 405 suppliers, 416 supplier bank accounts and a 3-month slice of history (3,784 purchase orders and goods receipts, 3,750 purchase invoices, 2,525 payment entries) loaded over its REST API with our own document ids. Every payment Pip or a human approves is posted by the gateway as a submitted Purchase Invoice and Payment Entry with ERPNext's own GL entries; open http://localhost:8080 to see them. The sync job reads ERPNext back into golden.db. `make test` and `make eval` run on the SQLite record (same generator, same ids, same shapes) so they are fast and isolated. Also real: the schema (modelled on ERPNext doctypes: Supplier, Purchase Order, Purchase Receipt, Purchase Invoice, Payment Entry, GL Entry), the fraud patterns (common business-email-compromise attacks: look-alike domains, bank-change requests before a payment, copied amounts, instructions aimed at automated AP), and the code paths: the gateway, policy engine, audit chain and trust rules that run in the demo are the ones the tests check.
 
-**Simulated:** the company Harborline Provisions, its 405 vendors, 8 months of history, POs, receipts, payments, the bank (SimBank, no real money), the people (department manager, controller, CFO), every fraud and error scenario, and the answer key used to measure accuracy. Tax ids use the invalid `00-` prefix; bank details are last-4 digits only. Pip's promotions before Oct 24 come from a shadow-mode review of historical bills; fast-forward generates new weeks of bills, and simulated people decide from the evidence, never from the labels. See `docs/DATA.md` for what is and is not done yet (ERPNext, SEC EDGAR sizing).
+**Simulated:** the company Harborline Provisions, its 405 vendors, 8 months of history, POs, receipts, payments, the bank (SimBank, no real money), the people (department manager, controller, CFO), every fraud and error scenario, and the answer key used to measure accuracy. Tax ids use the invalid `00-` prefix; bank details are last-4 digits only. Pip's promotions before Oct 24 come from a shadow-mode review of historical bills; fast-forward generates new weeks of bills, and simulated people decide from the evidence, never from the labels. See `docs/DATA.md` for what is and is not done yet (SEC EDGAR sizing).
 
 ## Run it
 Python 3.12 with [uv](https://docs.astral.sh/uv/), Node 20+.
@@ -45,6 +45,7 @@ make test      # invariant tests (must pass before any demo)
 make eval      # labeled evaluation -> eval/report.md, eval/report.json
 make demo      # reset, then API on :8000 and UI on :5173
 ```
+ERPNext (optional, recommended): Docker, then `make erpnext-seed` once (about 15 minutes; the image is about 1 GB) and `RECORD_BACKEND=erpnext` in `.env`. `make demo` then restores an ERPNext database snapshot on every reset (about 10 seconds). Without it, the demo runs on the SQLite record.
 Without `ANTHROPIC_API_KEY`, Pip runs in **rules mode**: the same procedure written as code, labelled in the UI. With a key, Pip is `claude-sonnet-5-5` in a tool loop and extraction falls back to `claude-haiku-4-5`. LLM responses are cached on disk by input hash and `MAX_LLM_CALLS` caps live calls.
 
 ## Eval

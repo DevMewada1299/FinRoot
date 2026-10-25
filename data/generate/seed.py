@@ -22,7 +22,8 @@ SEED = 1310
 
 def main(s=None, write_files: bool = True) -> None:
     t0 = time.time()
-    s = s or load_settings()
+    import dataclasses
+    s = s or dataclasses.replace(load_settings(), record_backend="sqlite")  # the generator always writes the SQLite record
     for f in (s.record_db, s.golden_db, s.work_db, s.bank_db):
         for suffix in ("", "-wal", "-shm"):
             Path(str(f) + suffix).unlink(missing_ok=True)
