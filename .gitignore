@@ -13,3 +13,4 @@ var/
 .DS_Store
 video/*.mp4
 video/*.mov
+video/build/

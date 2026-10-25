@@ -81,3 +81,20 @@ The chapter times assume the 4.5 s intro card; adjust after you watch the final 
 `sed -n '/^| 1 /,/^| 11 /p' docs/VIDEO.md | awk -F'|' '{print $5}' | tr -d '"' > /tmp/narration.txt && say -r 170 -f /tmp/narration.txt -o /tmp/narration.aiff`
 plays the 376-word script in a synthetic voice (about 2:05; your natural pace with pauses is about 2:30 to 2:45) so you can pace the clicks. Use your own voice
 for the real video; it is far more convincing.
+
+## Automated version (already made: `video/probation-demo.mp4`)
+`uv run --with playwright python video/record_demo.py` drives the running app in a headless browser, narrates each shot
+with the macOS voice Samantha, burns in captions, and runs `make_video.sh`. Reset first is automatic. It takes about
+3 minutes and produces a 2:27 video. Chapters for that file:
+```
+0:00 Intro
+0:05 A fake "we changed banks" email
+0:33 Evidence and the gateway's decision
+1:04 Pip's mistake: one bill split three ways
+1:18 Post-mortem and the Policy Lab
+1:40 The same trick, caught
+1:51 Scorecard
+2:05 Tamper-evident record
+2:13 ERPNext
+```
+Re-run it after any UI change. A take with your own voice is still better; the shot list above works for both.
