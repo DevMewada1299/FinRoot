@@ -19,7 +19,7 @@ trust that is earned and lost by rules, and a way to learn from mistakes that ca
 | 0:20 | **Play the planted email.** Watch the Live card. | "The amount matches PO and receipt. That is what makes this dangerous." |
 | 0:45 | Open **See evidence** on the held bill. | "Invoice vs our records vs bank history. New account, look-alike sender, an instruction aimed at the AP system. G-04 and G-05 are enforced in code; the email text is data." |
 | 1:05 | Header chip shows **tightened**. | "A precaution, not a penalty: limit cut to $500 for 7 days, vendor frozen." |
-| 1:15 | Paid list: three Tamarack bills against the same PO. **Report a problem**, select them. | "Yesterday Pip paid these. Each was under $5,000; together $13,581. That should have gone to the controller." |
+| 1:15 | Paid list: three Tamarack bills against the same PO. **Report a problem**, select them. | "Yesterday Pip paid these. Each was under $5,000; together $13,592. That should have gone to the controller." |
 | 1:35 | Pip's record → **Policy Lab**. | "Pip wrote the post-mortem itself: root cause, a rule, the exact change, and a replay test on past bills plus shuffled variants. Lessons can only tighten; this one could not raise a limit if it tried." |
 | 1:55 | **Approve lesson**, then **Play the split repeat**. | "Different vendor, four parts this time." Bills land in Needs you as 'Split to dodge limit', routed to the Controller on the combined amount. |
 | 2:20 | **Scorecard.** | "Same 300 labeled bills before and after: split-bill recall 0% to 100%, bad bills auto-paid 16 to 0, clean bills still auto-paid." |
