@@ -126,7 +126,8 @@ def bank_on(v: VendorSpec, day: str) -> dict:
 def generate_history(rec: SqliteRecord, vendors: list[VendorSpec], rng: random.Random, ctr: Counters) -> dict:
     regular = [v for v in vendors if v.represents_company is None]
     freq = {g: sum(GROUPS[g]["per_month"]) / 2 for g in GROUPS}
-    weights = [v.weight * freq[v.group] for v in regular]
+    from company import FOOD_GROUPS, NONFOOD_WEIGHT
+    weights = [v.weight * freq[v.group] * (1 if v.group in FOOD_GROUPS else NONFOOD_WEIGHT) for v in regular]
     fmt = {v.sid: bill_formatter(rng, v) for v in vendors}
     stats = {"invoices": 0, "payments": 0, "pos": 0}
     day = START

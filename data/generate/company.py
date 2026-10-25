@@ -17,7 +17,12 @@ ENTITIES = [
 ]
 
 # Share of vendor count per group, and the entity that mostly buys from it.
-# Spend weights are calibrated loosely to a broadline food distributor's cost mix (see docs/DATA.md).
+# Calibrated to US Foods Holding Corp. FY2025 10-K (SEC EDGAR, CIK 1665918, accession 0001665918-26-000008):
+# cost of goods $32,560M = 82.6% of revenue, operating expenses $5,665M = 14.4%. Assuming about a third of opex is
+# paid to vendors through AP (the rest is wages, benefits and depreciation), food should be ~94.5% of AP spend.
+# NONFOOD_WEIGHT scales how often non-food vendors bill to hit that mix; docs/DATA.md has the arithmetic.
+FOOD_GROUPS = {"Produce", "Dairy", "Meat & Seafood", "Dry Goods", "Beverage"}
+NONFOOD_WEIGHT = 0.2
 GROUPS = {
     "Produce":               dict(n=70, spend=1.0,  entity="HPI", po=True,  per_month=(4, 14)),
     "Dairy":                 dict(n=30, spend=1.1,  entity="HPI", po=True,  per_month=(4, 12)),

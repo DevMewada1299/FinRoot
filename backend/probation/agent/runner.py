@@ -71,6 +71,9 @@ def propose_rules(ctx: PipContext, item: dict, tier_limit: int) -> Proposal:
         action = "reject"
         agent_flags += sorted(flags & {"duplicate_exact", "duplicate_near"})
         reasons.append(f"Duplicate of {', '.join(f.get('duplicate_of', [])[:3])}.")
+        if used and "duplicate_exact" not in flags:  # every signal that applies; an exact resend is the same bill, not a part
+            agent_flags.append("split_to_dodge_limit")
+            reasons.append(f"Also part of {f.get('same_po_bills_7d')} bills against {f.get('po_id')} this week ({', '.join(used)}).")
     elif flags & {"bank_change", "lookalike_domain", "injection", "vendor_frozen", "bank_unverified"}:
         action = "hold"
         agent_flags += sorted(flags & {"bank_change", "lookalike_domain", "injection", "vendor_frozen", "bank_unverified"})

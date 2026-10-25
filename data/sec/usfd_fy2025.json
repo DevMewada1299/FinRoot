@@ -1,0 +1,9 @@
+{
+ "source": "SEC EDGAR companyfacts, US Foods Holding Corp., CIK 1665918, 10-K accession 0001665918-26-000008, fiscal year ended 2025-12-27",
+ "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001665918.json",
+ "RevenueFromContractWithCustomerExcludingAssessedTax": 39424000000,
+ "CostOfGoodsAndServicesSold": 32560000000,
+ "OperatingExpenses": 5665000000,
+ "GrossProfit": 6864000000,
+ "AccountsPayableCurrent_2025-12-27": 2447000000
+}
