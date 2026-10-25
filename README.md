@@ -49,13 +49,13 @@ ERPNext (optional, recommended): Docker, then `make erpnext-seed` once (about 15
 Without `ANTHROPIC_API_KEY`, Pip runs in **rules mode**: the same procedure written as code, labelled in the UI. With a key, Pip is `claude-sonnet-5-5` in a tool loop and extraction falls back to `claude-haiku-4-5`. LLM responses are cached on disk by input hash and `MAX_LLM_CALLS` caps live calls.
 
 ## Eval
-Numbers from `make eval` only (see `eval/report.md`). The latest run, in rules mode, on 300 labeled documents (195 clean, 105 planted), Pip fixed at Level 2:
+Numbers from `make eval` only (see `eval/report.md`). The latest run, in rules mode, on 300 labeled documents (193 clean, 107 planted), Pip fixed at Level 2:
 
 | | A. before learning | B. onboarding policies | C. after lessons |
 |---|---|---|---|
-| Auto-pay rate (clean bills) | 0.0% | 71.3% | 71.3% |
+| Auto-pay rate (clean bills) | 0.0% | 74.1% | 74.1% |
 | False-hold rate (clean bills) | 0.0% | 0.0% | 0.0% |
-| Bad bills auto-paid | 0 | 14 | 0 |
+| Bad bills auto-paid | 0 | 16 | 0 |
 | Split-to-dodge-limit recall | 0% | 0% | 100% |
 
 8 of 8 injection documents, run with full side effects, changed nothing. Caveat: the eval documents come from the same templates as the rules extractor, so rules-mode numbers for the other problem types are high partly by construction. The meaningful learning result is the split-bill row: same documents, same code, one human-approved lesson.

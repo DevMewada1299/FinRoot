@@ -237,9 +237,11 @@ def propose(ctx: PipContext, item: dict, doc: dict, tier: int, limit: int, mode:
     if mode != "rules" and ctx.s.llm_enabled:
         try:
             return propose_llm(ctx, item, doc, tier, limit, on_step)
-        except llm.LLMUnavailable:
+        except Exception as e:  # API down, rate-limited, refused or malformed: fall back to the same procedure as code
             if mode == "llm":
                 raise
+            if on_step:
+                on_step({"kind": "fallback", "text": f"LLM unavailable ({type(e).__name__}); deciding in rules mode"})
     p = propose_rules(ctx, item, limit)
     if on_step:
         on_step({"kind": "rules", "text": p.summary})

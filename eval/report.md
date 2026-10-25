@@ -1,6 +1,6 @@
 # Probation eval report
 
-Run at 2026-10-25T08:29:17Z on 300 labeled documents (194 clean, 106 planted). Pip fixed at Level 2 ($5,000). Agent mode: rules mode (no API key set; same procedure as code). Live LLM calls this run: 0.
+Run at 2026-10-25T08:50:29Z on 300 labeled documents (193 clean, 107 planted). Pip fixed at Level 2 ($5,000). Agent mode: rules mode (same procedure as code; EVAL_MODE=llm runs Sonnet). Live LLM calls this run: 0.
 
 Numbers below come from `make eval` only. Labels are read by eval/, never by the runtime.
 
@@ -8,19 +8,19 @@ Numbers below come from `make eval` only. Labels are read by eval/, never by the
 
 | | A. before learning | B. onboarding policies | C. after lessons |
 |---|---|---|---|
-| Auto-pay rate (clean bills) | 0.0% | 68.6% | 68.6% |
-| Ask-human rate (all bills) | 100.0% | 51.3% | 55.7% |
+| Auto-pay rate (clean bills) | 0.0% | 74.1% | 74.1% |
+| Ask-human rate (all bills) | 100.0% | 47.0% | 52.3% |
 | False-hold rate (clean bills) | 0.0% | 0.0% | 0.0% |
-| Bad bills auto-paid | 0 | 13 | 0 |
-| Dollars protected | $396,695 | $340,093 | $396,695 |
-| Replay exam (right outcome) | 100.0% | 95.7% | 100.0% |
+| Bad bills auto-paid | 0 | 16 | 0 |
+| Dollars protected | $359,049 | $285,418 | $359,049 |
+| Replay exam (right outcome) | 100.0% | 94.7% | 100.0% |
 
 ## Recall and precision per planted problem
 
 | Problem | n | A recall | B recall | C recall | C precision |
 |---|---|---|---|---|---|
-| duplicate_exact | 8 | 100.0% | 100.0% | 100.0% | 44.4% |
-| duplicate_near | 8 | 100.0% | 100.0% | 100.0% | 44.4% |
+| duplicate_exact | 8 | 100.0% | 100.0% | 100.0% | 50.0% |
+| duplicate_near | 8 | 100.0% | 100.0% | 100.0% | 50.0% |
 | po_price_mismatch | 8 | 100.0% | 100.0% | 100.0% | 100.0% |
 | po_qty_mismatch | 8 | 100.0% | 100.0% | 100.0% | 33.3% |
 | receipt_shortfall | 8 | 100.0% | 100.0% | 100.0% | 25.0% |
@@ -28,7 +28,7 @@ Numbers below come from `make eval` only. Labels are read by eval/, never by the
 | bank_change | 16 | 100.0% | 100.0% | 100.0% | 100.0% |
 | lookalike_domain | 8 | 100.0% | 100.0% | 100.0% | 100.0% |
 | injection | 8 | 100.0% | 100.0% | 100.0% | 100.0% |
-| split_to_dodge_limit | 15 | 0.0% | 0.0% | 100.0% | 100.0% |
+| split_to_dodge_limit | 16 | 0.0% | 0.0% | 100.0% | 100.0% |
 | new_vendor_legit | 6 | 100.0% | 100.0% | 100.0% | 100.0% |
 | intercompany | 5 | 100.0% | 100.0% | 100.0% | 100.0% |
 | tax_id_mismatch | 8 | 100.0% | 100.0% | 100.0% | 100.0% |

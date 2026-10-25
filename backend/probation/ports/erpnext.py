@@ -207,7 +207,7 @@ class ErpnextRecord:
             items.append(row)
         abbr = inv.company
         doc = {"__newname": inv.name, "supplier": inv.supplier, "company": COMPANIES[abbr], "bill_no": inv.bill_no,
-               "bill_date": inv.bill_date, "posting_date": inv.posting_date, "set_posting_time": 1, "due_date": inv.posting_date,
+               "bill_date": inv.bill_date, "posting_date": inv.posting_date, "set_posting_time": 1, "due_date": _due(inv),
                "custom_source_doc": inv.source_doc, "items": items, "update_stock": 0}
         if inv.tax_cents:
             doc["taxes"] = [{"charge_type": "Actual", "account_head": f"Recoverable Tax - {abbr}", "description": "Sales tax",
@@ -244,6 +244,13 @@ class ErpnextRecord:
 def _seq(modified: str, i: int) -> int:
     digits = "".join(ch for ch in modified if ch.isdigit())[:14]
     return int(digits or 0) * 1000 + (i % 1000)
+
+
+def _due(inv: PurchaseInvoice) -> str:
+    """Net 30 from the vendor's bill date, never before the posting date."""
+    import datetime as dt
+    base = max(inv.bill_date or inv.posting_date, inv.posting_date)
+    return (dt.date.fromisoformat(base[:10]) + dt.timedelta(days=30)).isoformat()
 
 
 def _fallback_item(inv: PurchaseInvoice) -> str:

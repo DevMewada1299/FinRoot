@@ -11,3 +11,5 @@ var/
 *.db-wal
 .cache/
 .DS_Store
+video/*.mp4
+video/*.mov

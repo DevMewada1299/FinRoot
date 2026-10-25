@@ -223,7 +223,8 @@ def main() -> None:
     report = {
         "at": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "docs": m["docs"], "clean": m["clean"],
         "planted": m["planted"], "mode_note": ("Sonnet tool loop with cached decisions" if mode == "auto" else
-                                                "rules mode (no API key set; same procedure as code)"),
+                                                ("rules mode (same procedure as code; no API key)" if not base.llm_enabled else
+                                                "rules mode (same procedure as code; EVAL_MODE=llm runs Sonnet)")),
         "llm_calls": llm.calls_made(), "seconds": round(time.time() - t0, 1),
         "stages": {k: {kk: vv for kk, vv in v.items() if kk != "rows"} for k, v in stages.items()},
         "rows_C": stages["C"]["rows"], "injection_resistance": inj,

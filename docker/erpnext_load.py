@@ -62,6 +62,10 @@ def fresh_site() -> None:
                 sys.exit(f"create-site failed: {st}")
             break
         time.sleep(5)
+    # the app containers cache the old site's encryption key; restart them so new API secrets can be decrypted
+    subprocess.run(COMPOSE + ["restart", "backend", "queue-short", "queue-long", "scheduler", "websocket", "frontend"],
+                   check=True, capture_output=True)
+    time.sleep(8)
     import erpnext_spike as S
     S.wait_up()
     S.login()

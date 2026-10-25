@@ -64,14 +64,15 @@ inspected in the Company Facts output, not assumed. Extracted values are saved i
 | AccountsPayableCurrent (Dec 27, 2025) | $2,447M | |
 
 Arithmetic:
-1. **Payables days.** $2,447M / $32,560M x 365 = **27.4 days**. Harborline: open AP at Oct 23 $3.78M against $4.13M of
-   monthly spend = **27.8 days** (Net 30 terms, paid a few days early). Matches without tuning.
+1. **Payables days.** $2,447M / $32,560M x 365 = **27.4 days**. Harborline: open AP at Oct 23 against average daily
+   spend = **28.6 days** (Net 30 terms, paid a few days early). Matches without tuning.
 2. **Spend mix.** Wages and depreciation do not go through AP. **Assumption** (not in the filing): about a third of
    operating expense is paid to vendors (fuel, facilities, freight, utilities, software, professional services). AP spend
    is then 82.6% + 14.4% / 3 = 87.4% of revenue, of which food is 82.6 / 87.4 = **94.5%**.
    The first generator had food at 76.8% (fuel alone 10.5%). `NONFOOD_WEIGHT = 0.2` in `data/generate/company.py`
-   brings it to **94.5% food, 5.5% non-food** excluding intercompany (93.2% / 5.4% / 1.4% intercompany).
-3. **Scale.** 1,194 invoices a month and $4.13M of monthly AP spend ($49.5M a year) imply revenue of about
-   $49.5M / 0.874 = **$57M**: a mid-size regional distributor, about 0.15% of US Foods.
+   brings it to **93.8% food, 6.2% non-food** excluding intercompany (92.4% / 6.1% / 1.5% intercompany). Mission Linen,
+   the vendor in the demo's near-duplicate scenario, is exempt so it has recent bills to be duplicated.
+3. **Scale.** 1,220 invoices a month and $4.26M of monthly AP spend ($51.2M a year) imply revenue of about
+   $51.2M / 0.874 = **$58.5M**: a mid-size regional distributor, about 0.15% of US Foods.
 
 Not calibrated: the split of food spend between categories (protein, produce, dairy, dry goods, beverage) is set by hand.
