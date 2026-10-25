@@ -1,5 +1,3 @@
-# Probation
-
 **Pip is the AP specialist at Harborline Provisions. It reads vendor bills, matches them to purchase orders and goods receipts, pays what is safe, and asks the right human for the rest.**
 
 Probation is the risk layer that lets a finance team hire it: tiered trust, limits enforced in code, a tamper-evident work record, and an agent that learns from corrections and from its own mistakes. Built at Cal Hacks 13.0.
