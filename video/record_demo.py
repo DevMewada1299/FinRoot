@@ -101,8 +101,13 @@ async def overlay(page: Page) -> None:
     await page.evaluate(OVERLAY_JS)
 
 
+CAPTIONS = os.environ.get("CAPTIONS", "0") == "1"   # off by default; CAPTIONS=1 burns the narration in as subtitles
+
+
 async def caption(page: Page, text: str) -> None:
     await overlay(page)
+    if not CAPTIONS:
+        return
     await page.evaluate("t => { const c = document.getElementById('__cap'); c.textContent = t; c.style.opacity = t ? 1 : 0; }", text)
 
 

@@ -15,3 +15,15 @@ video/*.mp4
 video/*.mov
 video/build/
 video/voice-samples/
+# secrets and local-only files: never commit
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.sql
+*.dump
+credentials*.json
+secrets*
+# re-fetchable raw downloads (docs/DATA.md has the URL)
+data/sec/*companyfacts*.json

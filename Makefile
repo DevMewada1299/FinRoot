@@ -3,6 +3,7 @@ PY = uv run --project backend python
 .PHONY: setup seed test eval dev api web demo reset erpnext-up erpnext-seed
 
 setup:
+	git config core.hooksPath .githooks   # pre-commit hook refuses secrets and local data
 	cd backend && uv sync --python 3.12
 	@test -f .env || cp .env.example .env
 	@test -d frontend/node_modules || (cd frontend && npm install)
