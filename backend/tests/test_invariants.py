@@ -284,3 +284,20 @@ def test_lessons_and_policies_need_a_human(gw):
     for actor in (PIP, "gateway", "alicia.brandt"):
         with pytest.raises(Denied):
             approve_lesson(gw, lid, actor)
+
+
+# ---------------------------------------------------------------- 12. no secrets in the repo
+def test_no_secrets_in_tracked_files():
+    import re
+    import subprocess
+    files = subprocess.run(["git", "ls-files"], cwd=REPO_ROOT, capture_output=True, text=True).stdout.split()
+    pat = re.compile(r"sk-ant-[A-Za-z0-9_\-]{20,}|^(ANTHROPIC_API_KEY|ERPNEXT_API_KEY|ERPNEXT_API_SECRET|INCREASE_API_KEY)=\S+", re.M)
+    for f in files:
+        p = REPO_ROOT / f
+        if not p.is_file() or p.stat().st_size > 2_000_000:
+            continue
+        try:
+            text = p.read_text()
+        except UnicodeDecodeError:
+            continue
+        assert not pat.search(text), f"{f} looks like it contains a secret; keys belong in .env (gitignored)"
