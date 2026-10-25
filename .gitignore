@@ -14,3 +14,4 @@ var/
 video/*.mp4
 video/*.mov
 video/build/
+video/voice-samples/

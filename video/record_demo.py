@@ -1,9 +1,11 @@
 """Record the demo video automatically: drive the real app with Playwright, narrate with macOS `say`, burn in captions.
 
-  uv run --with playwright python video/record_demo.py          # app on :5173 (API :8000), ERPNext on :8080
+  uv run --with playwright --with edge-tts python video/record_demo.py      # app on :5173 (API :8000), ERPNext on :8080
+  TTS=say VOICE=Samantha ...   (macOS voice, offline)      TTS=edge VOICE=en-US-AvaMultilingualNeural ...
   -> video/probation-demo.mp4 (via video/make_video.sh)
 
-Every click goes to the running app; nothing on screen is mocked. The narration is a synthetic voice (macOS Samantha).
+Every click goes to the running app; nothing on screen is mocked. Narration: Microsoft neural voices through the
+edge-tts library by default (free, no key; unofficial use of Edge's read-aloud service), or macOS `say` offline.
 """
 from __future__ import annotations
 
@@ -11,6 +13,7 @@ import asyncio
 import json
 import os
 import subprocess
+import sys
 import time
 import urllib.request
 from pathlib import Path
@@ -22,7 +25,9 @@ OUT = REPO / "video"
 WORK = OUT / "build"
 APP = "http://localhost:5173"
 ERP = "http://localhost:8080"
-VOICE, RATE = "Samantha", 172
+TTS = os.environ.get("TTS", "edge")
+VOICE = os.environ.get("VOICE", "en-US-AndrewMultilingualNeural" if TTS == "edge" else "Samantha")
+RATE = os.environ.get("RATE", "+4%" if TTS == "edge" else "172")
 W, H = 1920, 1080
 
 SHOTS = [
@@ -73,7 +78,14 @@ OVERLAY_JS = """
 
 
 def say(text: str, path: Path) -> float:
-    subprocess.run(["say", "-v", VOICE, "-r", str(RATE), "-o", str(path), text], check=True)
+    if TTS == "edge":
+        # neural voices read these naturally; the dotted spellings were for the macOS voice
+        for a, b in [("A.I.", "AI"), ("A.P.", "AP"), ("E.R.P. Next", "ERP Next"), ("G-04", "G zero four")]:
+            text = text.replace(a, b)
+        subprocess.run([sys.executable, "-m", "edge_tts", "--voice", VOICE, f"--rate={RATE}", "--text", text,
+                        "--write-media", str(path)], check=True, capture_output=True)
+    else:
+        subprocess.run(["say", "-v", VOICE, "-r", str(RATE), "-o", str(path), text], check=True)
     out = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(path)],
                          capture_output=True, text=True, check=True).stdout
     return float(out)
@@ -211,7 +223,7 @@ async def main() -> None:
     WORK.mkdir(parents=True, exist_ok=True)
     audio = []
     for i, (key, text) in enumerate(SHOTS):
-        p = WORK / f"{i:02d}-{key}.aiff"
+        p = WORK / f"{i:02d}-{key}.{'mp3' if TTS == 'edge' else 'aiff'}"
         audio.append((key, text, p, say(text, p)))
     print(f"narration: {sum(a[3] for a in audio):.0f}s over {len(audio)} shots")
     print("reset:", api("/sim/reset", {})["tier"])

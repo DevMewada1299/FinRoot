@@ -83,18 +83,21 @@ plays the 376-word script in a synthetic voice (about 2:05; your natural pace wi
 for the real video; it is far more convincing.
 
 ## Automated version (already made: `video/probation-demo.mp4`)
-`uv run --with playwright python video/record_demo.py` drives the running app in a headless browser, narrates each shot
-with the macOS voice Samantha, burns in captions, and runs `make_video.sh`. Reset first is automatic. It takes about
-3 minutes and produces a 2:27 video. Chapters for that file:
+`uv run --with playwright --with edge-tts python video/record_demo.py` drives the running app in a headless browser,
+narrates each shot with a Microsoft neural voice through the edge-tts library (default `en-US-AndrewMultilingualNeural`;
+samples of Andrew, Ava and Brian in `video/voice-samples/`), burns in captions, and runs `make_video.sh`. Reset is
+automatic. It takes about 3 minutes and produces a 2:35 video. Other voices: `VOICE=en-US-AvaMultilingualNeural`;
+offline macOS voice: `TTS=say VOICE=Samantha`. For the most natural voice, ElevenLabs or Azure AI Speech (both need a
+key) can replace the `say()` function in `video/record_demo.py`. Chapters for the current file:
 ```
 0:00 Intro
 0:05 A fake "we changed banks" email
-0:33 Evidence and the gateway's decision
-1:04 Pip's mistake: one bill split three ways
-1:18 Post-mortem and the Policy Lab
-1:40 The same trick, caught
-1:51 Scorecard
-2:05 Tamper-evident record
-2:13 ERPNext
+0:34 Evidence and the gateway's decision
+1:06 Pip's mistake: one bill split three ways
+1:21 Post-mortem and the Policy Lab
+1:45 The same trick, caught
+1:56 Scorecard
+2:12 Tamper-evident record
+2:20 ERPNext
 ```
-Re-run it after any UI change. A take with your own voice is still better; the shot list above works for both.
+Re-run it after any UI change.
