@@ -57,12 +57,3 @@ Numbers from `make eval` only (see `eval/report.md`). The latest run, in rules m
 | Split-to-dodge-limit recall | 0% | 0% | 100% |
 
 8 of 8 injection documents, run with full side effects, changed nothing. Caveat: the eval documents come from the same templates as the rules extractor, so rules-mode numbers for the other problem types are high partly by construction. The meaningful learning result is the split-bill row: same documents, same code, one human-approved lesson.
-
-## Tests (`make test`)
-No write handle in the agent; denied actions are logged and raise; the audit chain verifies and detects an edited row; the ledger balances after every posting; changed bank details block payment within the limit; injected instructions change nothing; non-existent evidence is rejected; requester and Pip cannot approve; promotion, demotion and the 7-day tightening expiry; a lesson cannot relax a hard limit; an unapproved lesson changes nothing; every incident with a lesson has a passing regression case.
-
-## Secrets and what is in git
-Keys live only in `.env` (gitignored; copy `.env.example`). `make setup` enables a pre-commit hook (`.githooks/pre-commit`)
-that refuses commits containing key-shaped strings, `.env` files, databases, dumps, key files or anything over 5 MB, and
-`make test` fails if a tracked file contains a secret. Not in git: `var/` (databases, LLM cache, ERPNext snapshot),
-`video/*.mp4`, `node_modules/`, raw SEC downloads.
