@@ -273,7 +273,7 @@ async def main() -> None:
                     "-shortest", "-c:v", "libx264", "-preset", "medium", "-crf", "18", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", str(raw)],
                    check=True)
     subprocess.run([str(OUT / "make_video.sh"), str(raw), str(OUT / "probation-demo.mp4")], check=True, cwd=REPO,
-                   env={**os.environ, "REPO_URL": os.environ.get("REPO_URL", "github.com/your-team/probation")})
+                   env={**os.environ, "REPO_URL": os.environ.get("REPO_URL", "github.com/DevMewada1299/FinRoot")})
 
 
 if __name__ == "__main__":

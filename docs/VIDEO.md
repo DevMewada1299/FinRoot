@@ -36,7 +36,7 @@ Total about 2:45. If you are long, cut shot 10 first, then shot 9's last sentenc
 ```
 ./video/make_video.sh ~/Desktop/"Screen Recording 2026-10-25 at 7.12.03 AM.mov"
 # -> video/probation-demo.mp4 (1080p, 30 fps, loudness-normalised, intro + outro cards)
-REPO_URL=github.com/<you>/probation ./video/make_video.sh <raw.mov>   # put your real repo on the closing card
+REPO_URL=github.com/DevMewada1299/FinRoot ./video/make_video.sh <raw.mov>   # put your real repo on the closing card
 ```
 Watch it once end to end before uploading. The output is in `video/` and is gitignored (`video/*.mp4`).
 

@@ -5,7 +5,7 @@
 set -euo pipefail
 RAW="${1:?usage: make_video.sh raw.mov [out.mp4]}"
 OUT="${2:-video/probation-demo.mp4}"
-REPO_URL="${REPO_URL:-github.com/your-team/probation}"
+REPO_URL="${REPO_URL:-github.com/DevMewada1299/FinRoot}"
 FONT_B="/System/Library/Fonts/Supplemental/Arial Bold.ttf"
 FONT_R="/System/Library/Fonts/Supplemental/Arial.ttf"
 BG="0x111714"; INK="0xe7eee9"; MUTED="0xa3b2a9"; ACCENT="0x86aef0"; GOOD="0x67c48a"
